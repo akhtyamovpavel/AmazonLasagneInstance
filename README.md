@@ -62,3 +62,10 @@ sudo cp lib64/libcudnn_static.a /usr/local/cuda-7.5/lib64/
 cd
 ```
 
+11. Устанавливаем Lasagne:
+```
+~/anaconda3/bin/pip install --upgrade https://github.com/Theano/Theano/archive/master.zip
+~/anaconda3/bin/pip install --upgrade https://github.com/Lasagne/Lasagne/archive/master.zip
+```
+
+12. Прописываем файл `.theanorc` (содержание можно найти в `.theanorc.example` в репозитории)
