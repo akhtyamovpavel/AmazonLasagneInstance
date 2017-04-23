@@ -69,3 +69,56 @@ cd
 ```
 
 12. Прописываем файл `.theanorc` (содержание можно найти в `.theanorc.example` в репозитории)
+
+13. Устанавливаем библиотеку `gpuarray`, которая требует Lasagne. Для этого необходимо выполнить установку cmake:
+```
+wget https://cmake.org/files/v3.8/cmake-3.8.0.tar.gz
+tar -zxvf cmake-3.8.0.tar.gz
+cd cmake-3.8.0
+./bootstrap
+gmake # (это займет некоторое время)
+cd
+```
+
+14. Ставим gpuarray:
+```
+git clone https://github.com/Theano/libgpuarray.git
+cd libgpuarray
+mkdir Build
+cd Build
+~/cmake-3.8.0/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr/local
+make
+sudo make install
+cd ..
+~/anaconda3/bin/python setup.py build
+~/anaconda3/bin/python setup.py install
+ln -s /usr/local/lib/libgpuarray.so.2 ~/anaconda3/lib/libgpuarray.so.2
+```
+
+15. Пробуем запустить анаконду:
+```
+~/anaconda3/bin/jupyter notebook
+```
+
+Если не хотите, чтобы ноутбук убивался случайно, лучше запускать через команду `nohup`:
+```
+nohup ~/anaconda3/bin/jupyter notebook > log.anaconda &
+```
+Не забудьте прочитать token, который необходим, чтобы открыть Jupyter. (можно сделать `cat log.anaconda`)
+Дополнительно, необходимо прокинуть порты на Jupyter: для этого необходимо создать еще одно соединение по ssh, в котором указать порты:
+```
+ssh -i "key.pem" -L 8888:localhost:8888 ec2-user@ec2-xx-xxx-xx-xx.us-west-2.compute.amazonaws.com
+```
+
+Все, ноутбук готов, можете работать. Проверка работы: команда `import pygpu` должна работать, а команда `import lasagne` должна выдавать что-то подобное:
+```
+Using cuDNN version 5110 on context None
+Mapped name None to device cuda0: GRID K520 (0000:00:03.0)
+```
+
+Пример работы можно посмотреть в ноутбуке "ExampleMnist" (основано на https://github.com/Lasagne/Lasagne/blob/master/examples/mnist.py)
+
+## Завершение работы
+После завершения своей работы выкачайте необходимые данные локально на машину, после чего необходимо остановить полностью машину (EC2 -> Running Instances -> Actions -> Instance State) (terminate или stop) (автор не знает, сохраняются ли данные при нажатии stop)
+
+# Успешной работы!
