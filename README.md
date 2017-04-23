@@ -115,3 +115,10 @@ ssh -i "key.pem" -L 8888:localhost:8888 ec2-user@ec2-xx-xxx-xx-xx.us-west-2.comp
 Using cuDNN version 5110 on context None
 Mapped name None to device cuda0: GRID K520 (0000:00:03.0)
 ```
+
+Пример работы можно посмотреть в ноутбуке "ExampleMnist" (основано на https://github.com/Lasagne/Lasagne/blob/master/examples/mnist.py)
+
+## Завершение работы
+После завершения своей работы выкачайте необходимые данные локально на машину, после чего необходимо остановить полностью машину (EC2 -> Running Instances -> Actions -> Instance State) (terminate или stop) (автор не знает, сохраняются ли данные при нажатии stop)
+
+# Успешной работы!
