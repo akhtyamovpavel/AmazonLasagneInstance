@@ -27,6 +27,7 @@ wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh # Python 
 bash Anaconda3-4.3.1-Linux-x86_64.sh # Для Python 3, для Python 2 аналогично
 ```
 Желательно не прописывать в переменную PATH Anaconda, чтобы проблем с совместимостью библиотек не было.
+
 5. Устанавливаем Vim:
 ```
 sudo yum install vim
@@ -40,3 +41,24 @@ export LD_LIBRARY_PATH="/usr/local/cuda-7.5/lib64:$LD_LIBRARY_PATH"
 Это подключит библиотеки CUDA. Для того, чтобы добавить строки, нажмите на `i`, после введения строк нажмите на `Esc`, а затем `:wq` и `Enter`, чтобы сохранить изменения.
 
 7. Обновляем изменения, прописываем команду `source .bashrc`.
+
+8. Выкачиваем библиотеку cudnn, которая требует lasagne, для этого идем на сайт NVIDIA (https://developer.nvidia.com/cudnn), нажимаем на кнопку Download (если предлагает зарегистрироваться, то жмем на кнопку "Join Now" и регистрируемся, заполняем опросы). Заходим на сайт, качаем "cuDNN v5.1 for CUDA 7.5, Linux"
+
+9. Открываем терминал, выполняем аналогичную команду для заливки файлов на сервер (команду лучше сделать из той папки, где лежит ваш скачанный ключ):
+```
+scp -i "key.pem" cudnn-7.5-linux-x64-v5.1.tgz ec2-user@ec2-xx-xxx-xx-xx.us-west-2.compute.amazonaws.com:~/
+```
+, где key.pem - ключ соединения к серверу.
+
+10. Распаковываем на сервере данные и раскладываем по папкам:
+```
+tar -zxvf cudnn-7.5-linux-x64-v5.1.tgz
+cd cuda
+sudo cp include/cudnn.h /usr/local/cuda-7.5/include/
+sudo cp lib64/libcudnn.so /usr/local/cuda-7.5/lib64/
+sudo cp lib64/libcudnn.so.5 /usr/local/cuda-7.5/lib64/
+sudo cp lib64/libcudnn.so.5.1.10 /usr/local/cuda-7.5/lib64/
+sudo cp lib64/libcudnn_static.a /usr/local/cuda-7.5/lib64/
+cd
+```
+
