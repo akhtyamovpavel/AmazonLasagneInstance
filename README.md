@@ -27,3 +27,16 @@ wget https://repo.continuum.io/archive/Anaconda2-4.3.1-Linux-x86_64.sh # Python 
 bash Anaconda3-4.3.1-Linux-x86_64.sh # Для Python 3, для Python 2 аналогично
 ```
 Желательно не прописывать в переменную PATH Anaconda, чтобы проблем с совместимостью библиотек не было.
+5. Устанавливаем Vim:
+```
+sudo yum install vim
+```
+6. Прописываем следующие строки в `.bashrc` (выполняем команду `vim .bashrc`):
+```
+export PATH="/usr/local/cuda-7.5/bin:$PATH"
+export LIBRARY_PATH="/usr/local/cuda-7.5/lib64:$LIBRARY_PATH"
+export LD_LIBRARY_PATH="/usr/local/cuda-7.5/lib64:$LD_LIBRARY_PATH"
+```
+Это подключит библиотеки CUDA. Для того, чтобы добавить строки, нажмите на `i`, после введения строк нажмите на `Esc`, а затем `:wq` и `Enter`, чтобы сохранить изменения.
+
+7. Обновляем изменения, прописываем команду `source .bashrc`.
